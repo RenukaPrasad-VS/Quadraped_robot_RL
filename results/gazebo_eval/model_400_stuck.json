@@ -1,0 +1,14 @@
+{
+  "status": "stopped on start flat (time limit)",
+  "progress_m": 1.43,
+  "goal_m": 17.8,
+  "time_s": 60.0,
+  "max_roll_deg": 6.1,
+  "max_pitch_deg": 9.7,
+  "rms_roll_deg": 3.4,
+  "rms_pitch_deg": 5.1,
+  "max_tilt_rate_dps": 259,
+  "step_height_m": 0.12,
+  "slope_deg": 8.0,
+  "policy": "/home/rprenu/go2_stairs_rl/logs/rsl_rl/go2_stairs_blind/2026-11-18_13-36-40/model_400.pt"
+}

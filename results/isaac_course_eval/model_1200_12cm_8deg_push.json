@@ -1,0 +1,114 @@
+{
+  "args": {
+    "task": "Go2-Stairs-Blind-v0",
+    "checkpoint": "logs/rsl_rl/go2_stairs_blind/2026-11-18_13-36-40/model_1200.pt",
+    "policy": "trained",
+    "num_envs": 8,
+    "step_height": 0.12,
+    "slope_deg": 8.0,
+    "speed": 0.5,
+    "push": true,
+    "max_seconds": 60.0,
+    "enable_cameras": false,
+    "xr": false,
+    "device": "cuda:0",
+    "cpu": false,
+    "verbose": false,
+    "info": false,
+    "rendering_mode": null,
+    "kit_args": "",
+    "anim_recording_enabled": false,
+    "anim_recording_start_time": 0,
+    "anim_recording_stop_time": 10,
+    "headless": true,
+    "hide_ui": true,
+    "create_new_stage": false,
+    "physics_gpu": 0,
+    "active_gpu": 0
+  },
+  "checkpoint": "/home/rprenu/go2_stairs_rl/logs/rsl_rl/go2_stairs_blind/2026-11-18_13-36-40/model_1200.pt",
+  "goal_m": 17.8,
+  "finished": 8,
+  "robots": [
+    {
+      "robot": 0,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 9.5,
+      "max_pitch_deg": 18.6,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 6.6,
+      "max_tilt_rate_dps": 154.0
+    },
+    {
+      "robot": 1,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 8.4,
+      "max_pitch_deg": 20.5,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 6.9,
+      "max_tilt_rate_dps": 187.0
+    },
+    {
+      "robot": 2,
+      "status": "finished",
+      "progress_m": 17.81,
+      "max_roll_deg": 7.2,
+      "max_pitch_deg": 17.4,
+      "rms_roll_deg": 2.8,
+      "rms_pitch_deg": 6.3,
+      "max_tilt_rate_dps": 139.0
+    },
+    {
+      "robot": 3,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 8.6,
+      "max_pitch_deg": 21.0,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 7.2,
+      "max_tilt_rate_dps": 237.0
+    },
+    {
+      "robot": 4,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 6.7,
+      "max_pitch_deg": 19.2,
+      "rms_roll_deg": 2.7,
+      "rms_pitch_deg": 6.6,
+      "max_tilt_rate_dps": 191.0
+    },
+    {
+      "robot": 5,
+      "status": "finished",
+      "progress_m": 17.81,
+      "max_roll_deg": 7.7,
+      "max_pitch_deg": 25.2,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 7.2,
+      "max_tilt_rate_dps": 213.0
+    },
+    {
+      "robot": 6,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 8.5,
+      "max_pitch_deg": 20.5,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 6.7,
+      "max_tilt_rate_dps": 186.0
+    },
+    {
+      "robot": 7,
+      "status": "finished",
+      "progress_m": 17.8,
+      "max_roll_deg": 8.0,
+      "max_pitch_deg": 18.0,
+      "rms_roll_deg": 2.9,
+      "rms_pitch_deg": 6.5,
+      "max_tilt_rate_dps": 211.0
+    }
+  ]
+}

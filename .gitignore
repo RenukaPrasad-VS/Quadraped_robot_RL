@@ -1,0 +1,15 @@
+# Training/eval output (large, machine-specific). Curated results live in results/.
+logs/
+outputs/
+*.log
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Unitree's repositories: cloned by scripts/setup_third_party.sh, not redistributed here
+third_party/
+
+# colcon build output (regenerate with `colcon build`)
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
