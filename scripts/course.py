@@ -17,6 +17,9 @@ from datetime import datetime
 
 from isaaclab.app import AppLauncher
 
+sys.path.insert(0, os.path.dirname(__file__))
+from imu_monitor import ImuMonitor, add_imu_args, follow_imu_robot  # noqa: E402
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--task", default="Go2-Stairs-v0", choices=["Go2-Stairs-v0", "Go2-Stairs-Blind-v0"])
 parser.add_argument("--checkpoint", default=None, help="Defaults to the newest checkpoint of the task.")
@@ -28,6 +31,7 @@ parser.add_argument("--slope_deg", type=float, default=8.0, help="Side-slope ang
 parser.add_argument("--speed", type=float, default=0.6, help="Commanded forward speed (m/s).")
 parser.add_argument("--push", action="store_true", help="Also apply random shoves every 5-10 s.")
 parser.add_argument("--max_seconds", type=float, default=60.0)
+add_imu_args(parser)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 simulation_app = AppLauncher(args).app
@@ -41,7 +45,6 @@ import go2_stairs  # noqa: E402, F401
 from go2_stairs.env_cfg import apply_course  # noqa: E402
 from go2_stairs.terrains import StairSlopeCourseCfg, course_length  # noqa: E402
 
-sys.path.insert(0, os.path.dirname(__file__))
 from common import load_cfgs, resolve_checkpoint  # noqa: E402
 
 
@@ -74,6 +77,7 @@ def segment_at(progress: float, segs) -> str:
 def main():
     env_cfg, agent_cfg = load_cfgs(args.task, args.device)
     env_cfg.scene.num_envs = args.num_envs
+    follow_imu_robot(args, env_cfg)
     apply_course(env_cfg, args.step_height, args.slope_deg, args.speed, args.push)
     env_cfg.episode_length_s = args.max_seconds
 
@@ -110,6 +114,7 @@ def main():
     max_rate = torch.zeros(n, device=base.device)
     samples = torch.zeros(n, device=base.device)
 
+    imu_monitor = ImuMonitor(args, base)
     obs = env.get_observations()
     max_steps = int(args.max_seconds / base.step_dt)
     for step in range(max_steps):
@@ -117,6 +122,7 @@ def main():
             break
         with torch.inference_mode():
             obs, _, dones, extras = env.step(policy(obs))
+        imu_monitor.update(step)
 
         g = imu.data.projected_gravity_b
         roll = torch.atan2(g[:, 1], -g[:, 2]).abs()
@@ -145,6 +151,7 @@ def main():
                   f"max pitch={math.degrees(max_pitch.max()):4.1f}°")
         if not active.any():
             break
+    imu_monitor.close()
 
     for i in torch.nonzero(active).flatten().tolist():
         status[i] = f"stopped on {segment_at(progress[i].item(), segs)} (time limit)"

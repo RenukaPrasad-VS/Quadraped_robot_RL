@@ -124,6 +124,36 @@ Also exports `policy.pt` / `policy.onnx` next to the checkpoint.
 ./scripts/play.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --num_envs 1   # one robot (default 16)
 ```
 
+### Monitor the IMU live
+
+`course.sh` and `play.sh` accept these options (they watch robot `--imu_robot`, default 0, at `--imu_hz`, default 10 Hz):
+
+| Option | What you get |
+|---|---|
+| `--show_imu` | Inside the Isaac Sim window: the camera follows the robot, arrows on it (green = body up-axis / tilt, red = angular velocity, blue = acceleration without gravity), and a **Go2 IMU** panel with live roll/pitch/yaw, angular rate, acceleration and scrolling plots |
+| `--echo_imu` | Terminal output like `ros2 topic echo`: a `sensor_msgs/Imu`-style block (orientation, angular velocity, linear acceleration) plus roll/pitch/yaw in degrees |
+| `--ros2` | Real ROS 2 topics `/go2/imu` (`sensor_msgs/msg/Imu`) and `/go2/imu/rpy` (`geometry_msgs/msg/Vector3Stamped`, degrees). Uses the ROS 2 Humble libraries bundled with Isaac Sim |
+
+```bash
+# See the IMU in Isaac Sim
+./scripts/course.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt \
+    --speed 0.5 --num_envs 1 --show_imu
+
+# Print it in the terminal
+./scripts/course.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt \
+    --speed 0.5 --num_envs 1 --echo_imu
+
+# Publish to ROS 2 ...
+./scripts/play.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --ros2
+# ... and in a second terminal
+source /opt/ros/humble/setup.bash
+ros2 topic echo /go2/imu
+ros2 topic echo /go2/imu/rpy
+ros2 run rqt_plot rqt_plot /go2/imu/rpy/vector/x /go2/imu/rpy/vector/y   # live roll / pitch plot
+```
+
+The options can be combined. Linear acceleration includes gravity (about +9.81 m/s² on z when level), like a real accelerometer.
+
 ### 4. Train
 
 Checkpoints are written to `logs/rsl_rl/<experiment>/<timestamp>/model_*.pt`.
@@ -163,6 +193,7 @@ cd go2_isaac_live
 - `go2_stairs/mdp.py`: IMU observation terms (everything else comes from `unitree_rl_lab` / Isaac Lab)
 - `go2_stairs/agents/ppo_cfg.py`: PPO hyper-parameters
 - `scripts/train.py`, `play.py`, `course.py`: entry points (wrapped by the `.sh` files); `setup_third_party.sh`
+- `scripts/imu_monitor.py`: live IMU view in Isaac Sim, terminal echo and ROS 2 publishing (`--show_imu`, `--echo_imu`, `--ros2`)
 - `results/`: the trained checkpoint with its `params/` (including `deploy.yaml`), and the evaluation reports
 - `go2_isaac_live/`: optional tool to watch and steer PPO training live in the Isaac Sim window (pause, save, follow a robot). Independent of the rest; not used for the results above.
 
