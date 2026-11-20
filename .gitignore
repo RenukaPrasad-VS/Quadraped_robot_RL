@@ -9,3 +9,6 @@ __pycache__/
 # Unitree's repositories: cloned by scripts/setup_third_party.sh, not redistributed here
 third_party/
 
+
+# Local documents (not part of the repo)
+docs/
