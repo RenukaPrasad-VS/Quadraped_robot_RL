@@ -106,9 +106,14 @@ export ISAACSIM_DIR=~/issacsim/isaac-sim-standalone-5.1.0-linux-x86_64   # only 
 ./scripts/course.sh --headless --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt \
     --step_height 0.15 --slope_deg 10 --push
 
+# Watch a single robot instead of 8
+./scripts/course.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --speed 0.5 --num_envs 1
+
 # Untrained baseline (robot just stands)
 ./scripts/course.sh --headless --policy zero
 ```
+
+The course runs 8 robots side by side by default (`--num_envs 8`). They all use the same trained policy; running several at once is what gives the success rate (e.g. 7 / 8 finished) rather than a single, possibly lucky, run. Use `--num_envs 1` to watch just one.
 
 ### 3. Watch the policy on the training terrains
 
@@ -116,6 +121,7 @@ Also exports `policy.pt` / `policy.onnx` next to the checkpoint.
 
 ```bash
 ./scripts/play.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt
+./scripts/play.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --num_envs 1   # one robot (default 16)
 ```
 
 ### 4. Train
