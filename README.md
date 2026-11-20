@@ -107,7 +107,7 @@ export ISAACSIM_DIR=~/issacsim/isaac-sim-standalone-5.1.0-linux-x86_64   # only 
     --step_height 0.15 --slope_deg 10 --push
 
 # Watch a single robot instead of 8
-./scripts/course.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --speed 0.5 --num_envs 1
+./scripts/course.sh --task Go2-Stairs-Blind-v0 --checkpoint results/go2_stairs_blind_model_1200/model_1200.pt --speed 0.5 --num_envs 1 --show_imu
 
 # Untrained baseline (robot just stands)
 ./scripts/course.sh --headless --policy zero
